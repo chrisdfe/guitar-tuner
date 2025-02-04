@@ -1,4 +1,4 @@
-import { CHROMATIC_NOTES, ChromaticNote } from "./types";
+import { CHROMATIC_NOTES, ChromaticNote } from "./notes";
 
 // note - uses chromatic intervals
 export const CHORD_CHROMATIC_INTERVALS_BY_NAME = {
@@ -16,7 +16,7 @@ export const getChromaticNoteAtIIntervalFromNote = (note: ChromaticNote, interva
   const noteIndex = CHROMATIC_NOTES.indexOf(note);
 
   let finalInterval = noteIndex + clampedInterval;
-  if (finalInterval > CHROMATIC_NOTES.length) {
+  if (finalInterval >= CHROMATIC_NOTES.length) {
     finalInterval -= CHROMATIC_NOTES.length;
   }
 

@@ -1,5 +1,6 @@
 // null === natural
-import { Note, ALL_NOTES, ChromaticNote } from './types';
+import { CHORD_CHROMATIC_INTERVALS_BY_NAME } from './chords';
+import { Note, ALL_NOTES, ChromaticNote, CHROMATIC_NOTE_REVERSE_LOOKUP } from './notes';
 
 export default class NoteWrapper {
   value: Note;
@@ -33,7 +34,44 @@ export default class NoteWrapper {
   getIdx = () => ALL_NOTES.findIndex(note => NoteWrapper.wrap(note).toString() === this.toString());
 
   // TODO - type assertions
-  asChromaticNote = () => `${this.value.name}${this.value.modifier ?? ''}` as ChromaticNote;
+  asChromaticNote = () => {
+    if (this.value.modifier) {
+      // e.g Ab
+      const baseNote = `${this.value.name}${this.value.modifier}` as keyof typeof CHROMATIC_NOTE_REVERSE_LOOKUP;
+
+      // Get the 'autonym' (that isn't the right word)
+      // e.g G#
+      const autonymNote = CHROMATIC_NOTE_REVERSE_LOOKUP[baseNote];
+
+      // figure out which is which, to order correctly (sharp always comes first: e.g C#/Db)
+      let sharpNote;
+      let flatNote;
+
+      if (baseNote.includes("#")) {
+        sharpNote = baseNote;
+        flatNote = autonymNote;
+      } else {
+        sharpNote = autonymNote;
+        flatNote = baseNote;
+      }
+
+      return `${sharpNote}/${flatNote}` as ChromaticNote;
+    } else {
+      // a natural note
+      return this.value.name;
+    }
+  };
+
+  asFlatChromaticNote = () => {
+    const chromaticNote = this.asChromaticNote();
+
+    if (chromaticNote.includes('/')) {
+      const [, flat] = chromaticNote.split('/');
+      return flat;
+    }
+
+    return chromaticNote;
+  };
 
   // static fromString = (noteString: string) => {
 

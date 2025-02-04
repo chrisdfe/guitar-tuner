@@ -33,6 +33,30 @@ export const CHROMATIC_NOTES = [
 
 export type ChromaticNote = typeof CHROMATIC_NOTES[number];
 
+export type FlatChromaticNote = 'Db' | 'Eb' | 'Gb' | 'Ab' | 'Bb';
+export type SharpChromaticNote = 'C#' | 'D#' | 'F#' | 'G#' | 'A#';
+
+export type ChromaticNoteTuple = [FlatChromaticNote, SharpChromaticNote];
+
+// Given a note with a sharp or flat (eg. C#), gives its 
+export const CHROMATIC_NOTE_REVERSE_LOOKUP = {
+  // C#/Db
+  'C#': "Db",
+  "Db": "C#",
+  // D#/Eb
+  "D#": "Eb",
+  "Eb": "D#",
+  // F#/Db
+  "F#": "Gb",
+  "Gb": "F#",
+  // G#/Ab 
+  "G#": "Ab",
+  "Ab": "G#",
+  // A#/Gb
+  "A#": "Bb",
+  "Bb": "A#"
+};
+
 
 // TODO - non-map version?
 export const ALL_NOTES: Note[] = OCTAVES.flatMap((octave) =>

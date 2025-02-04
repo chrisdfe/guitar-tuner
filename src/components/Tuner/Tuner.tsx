@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 
-import { ChromaticNote, Note } from 'musicTheory/types';
+import { ChromaticNote, Note } from 'musicTheory';
 import { ChordName, getChromaticNotesInChord } from 'musicTheory';
 
 import { GuitarStrings } from './GuitarStrings';
@@ -21,20 +21,20 @@ const createDefaultStringsState = (): Note[] => (
 );
 
 const Tuner = () => {
-  const [currentChordRoot] = useState<ChromaticNote>('C');
+  const [rootNote, setRootNote] = useState<ChromaticNote>('C');
   const [currentChord] = useState<ChordName>('major');
   const [showOctave, _setShowOctave] = useState(false);
   const [strings, _setStrings] = useState(createDefaultStringsState);
   const [fretsToShow, setFretsToShow] = useState(6);
 
-  const notesInCurrentChord = useMemo(() => (getChromaticNotesInChord(currentChordRoot, currentChord)), [currentChordRoot, currentChord]);
+  const notesInCurrentChord = useMemo(() => (getChromaticNotesInChord(rootNote, currentChord)), [rootNote, currentChord]);
 
   return (
     <div className={styles.tuner}>
       <GuitarStrings
         strings={strings}
         showOctave={showOctave}
-        currentChordRoot={currentChordRoot}
+        currentChordRoot={rootNote}
         currentChord={currentChord}
         notesInCurrentChord={notesInCurrentChord}
         fretsToShow={fretsToShow}
@@ -42,6 +42,8 @@ const Tuner = () => {
       <ChordSettings
         fretsToShow={fretsToShow}
         setFretsToShow={setFretsToShow}
+        rootNote={rootNote}
+        setRootNote={setRootNote}
       />
     </div>
   );

@@ -1,5 +1,5 @@
 import { ChordName } from "musicTheory";
-import { ChromaticNote, Note } from "../../../musicTheory/types";
+import { ChromaticNote, Note } from "../../../musicTheory";
 
 import GuitarString from "./GuitarString";
 

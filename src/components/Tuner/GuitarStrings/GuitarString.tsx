@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { ChordName, ChromaticNote, Note, NoteWrapper } from 'musicTheory';
 import styles from './GuitarStrings.module.scss';
+import Fret from './Fret';
 
 interface Props {
   index: number;
@@ -13,30 +14,15 @@ interface Props {
 }
 
 const GuitarString = ({ note, showOctave, notesInCurrentChord, fretsToShow }: Props) => {
-  const chromaticNote = NoteWrapper.wrap(note).asChromaticNote();
-
   return (
     <div className={styles.guitarString}>
       <div className={styles.guitarStringHeader}>
         <div><strong>{NoteWrapper.wrap(note).toString(showOctave)}</strong></div>
       </div>
 
-      {[...new Array(fretsToShow)].map((_, fret) => {
-        const fretWrappedNote = NoteWrapper.wrap(note).add(fret + 1);
-
-        return (
-          <div className={styles.guitarStringFretWrapper}>
-            <div
-              className={classNames(styles.guitarStringFret, {
-                [styles.isHighlighted]: notesInCurrentChord.includes(fretWrappedNote.asChromaticNote()),
-              })}
-              key={fret}
-            >
-              <div>{fretWrappedNote.toString(showOctave)}</div>
-            </div>
-          </div>
-        );
-      })}
+      {[...new Array(fretsToShow)].map((_, fret) =>
+        <Fret fret={fret} note={note} notesInCurrentChord={notesInCurrentChord} />
+      )}
     </div>
   );
 };
