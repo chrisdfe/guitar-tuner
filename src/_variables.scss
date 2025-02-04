@@ -1,0 +1,16 @@
+$theme-color: blue;
+
+$off-white: #eaeaea;
+$tangerine: #ff8302;
+$maroon: #720103;
+
+// $text-color: $maroon;
+$text-color: $tangerine;
+
+$border-color: $tangerine;
+
+$background-0: $tangerine;
+
+// $background-1: rgba($theme-color, 0.1);
+$background-1: #ffffff;
+$background-2: mix($background-0, $background-1, 20%);

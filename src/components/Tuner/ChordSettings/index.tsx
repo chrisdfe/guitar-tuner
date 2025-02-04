@@ -1,0 +1,1 @@
+export { default as ChordSettings } from './ChordSettings';
