@@ -1,9 +1,15 @@
-import { ChordName, ChromaticNote, Note } from "musicTheory";
-import { createContext, ReactNode, useState } from "react";
+import {
+  ChordName,
+  ChromaticNote,
+  getChromaticNotesInChord,
+  Note,
+} from "musicTheory";
+import { createContext, ReactNode, useContext, useMemo, useState } from "react";
 
 interface AppState {
   rootNote: ChromaticNote;
   currentChord: ChordName;
+  notesInCurrentChord: ChromaticNote[];
   showOctave: boolean;
   strings: Note[];
   fretsToShow: number;
@@ -13,6 +19,7 @@ export const AppStateContext = createContext<AppState>({
   rootNote: "C",
   currentChord: "major",
   showOctave: false,
+  notesInCurrentChord: [],
   strings: [],
   fretsToShow: 5,
 });
@@ -46,6 +53,9 @@ const createDefaultStrings = (): Note[] => [
   { name: "E", octave: "6" },
 ];
 
+export const useAppState = () => useContext(AppStateContext);
+export const useAppStateMutations = () => useContext(AppStateMutationsContext);
+
 const AppStateWrapper = ({ children }: Props) => {
   const [rootNote, setRootNote] = useState<ChromaticNote>("C");
   const [currentChord, setCurrentChord] = useState<ChordName>("major");
@@ -53,9 +63,15 @@ const AppStateWrapper = ({ children }: Props) => {
   const [fretsToShow, setFretsToShow] = useState(6);
   const [showOctave, setShowOctave] = useState(false);
 
+  const notesInCurrentChord = useMemo(
+    () => getChromaticNotesInChord(rootNote, currentChord),
+    [rootNote, currentChord]
+  );
+
   const state = {
     rootNote,
     currentChord,
+    notesInCurrentChord,
     showOctave,
     strings,
     fretsToShow,

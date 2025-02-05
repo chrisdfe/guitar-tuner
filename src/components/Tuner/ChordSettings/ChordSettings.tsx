@@ -1,19 +1,13 @@
 import { CHROMATIC_NOTES, ChromaticNote, NoteWrapper } from "musicTheory";
 import styles from "./ChordSettings.module.scss";
+import { useAppState, useAppStateMutations } from "components/AppState";
 
-interface Props {
-  fretsToShow: number;
-  setFretsToShow: (frets: number) => void;
-  rootNote: ChromaticNote;
-  setRootNote: (note: ChromaticNote) => void;
-}
+interface Props {}
 
-const ChordSettings = ({
-  fretsToShow,
-  setFretsToShow,
-  rootNote,
-  setRootNote,
-}: Props) => {
+const ChordSettings = ({}: Props) => {
+  const { fretsToShow, rootNote } = useAppState();
+  const { setFretsToShow, setRootNote } = useAppStateMutations();
+
   return (
     <div className={styles.panel}>
       <div className={styles.formControl}>

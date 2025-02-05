@@ -1,27 +1,12 @@
-import { ChordName, NoteWrapper } from "musicTheory";
-import { ChromaticNote, Note } from "../../../musicTheory";
-
+import { NoteWrapper } from "musicTheory";
 import GuitarString from "./GuitarString";
 
 import styles from "./GuitarStrings.module.scss";
+import { useAppState } from "components/AppState";
 
-interface Props {
-  strings: Note[];
-  showOctave: boolean;
-  currentChordRoot: ChromaticNote;
-  currentChord: ChordName;
-  notesInCurrentChord: ChromaticNote[];
-  fretsToShow: number;
-}
+const GuitarStrings = () => {
+  const { strings } = useAppState();
 
-const GuitarStrings = ({
-  strings,
-  showOctave,
-  currentChordRoot,
-  currentChord,
-  notesInCurrentChord,
-  fretsToShow,
-}: Props) => {
   return (
     <div className={styles.guitarStrings}>
       {strings.map((note, index) => (
@@ -29,11 +14,6 @@ const GuitarStrings = ({
           key={NoteWrapper.wrap(note).toString()}
           note={note}
           index={index}
-          showOctave={showOctave}
-          currentChordRoot={currentChordRoot}
-          currentChord={currentChord}
-          notesInCurrentChord={notesInCurrentChord}
-          fretsToShow={fretsToShow}
         />
       ))}
     </div>
