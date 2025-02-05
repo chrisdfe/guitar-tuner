@@ -1,12 +1,12 @@
-import { CHROMATIC_NOTES, ChromaticNote, NoteWrapper } from "musicTheory";
+import { CHROMATIC_NOTES, ChromaticNote } from "musicTheory";
 import styles from "./ChordSettings.module.scss";
 import { useAppState, useAppStateMutations } from "components/AppState";
+import { playChord } from "sound/guitarTone";
 
-interface Props {}
-
-const ChordSettings = ({}: Props) => {
-  const { fretsToShow, rootNote } = useAppState();
-  const { setFretsToShow, setRootNote } = useAppStateMutations();
+const ChordSettings = () => {
+  const { fretsToShow, rootNote, selectedNotes } = useAppState();
+  const { setFretsToShow, setRootNote, setSelectedNotes } =
+    useAppStateMutations();
 
   return (
     <div className={styles.panel}>
@@ -41,6 +41,39 @@ const ChordSettings = ({}: Props) => {
             </option>
           ))}
         </select>
+      </div>
+
+      <div className={styles.formControl}>
+        <label htmlFor="note-play-mode">play mode</label>
+        <label htmlFor="play-mode-single">
+          <input type="radio" name="note-play-mode"></input>
+          <span>single</span>
+        </label>
+        <label htmlFor="play-mode-chord">
+          <input type="radio" name="note-play-mode"></input>
+          <span>chord</span>
+        </label>
+      </div>
+
+      <div>
+        <div>
+          <button
+            onClick={() => {
+              playChord(selectedNotes);
+            }}
+          >
+            play chord
+          </button>
+        </div>
+        <div>
+          <button
+            onClick={() => {
+              setSelectedNotes([]);
+            }}
+          >
+            clear notes
+          </button>
+        </div>
       </div>
     </div>
   );

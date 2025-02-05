@@ -4,7 +4,14 @@ import {
   getChromaticNotesInChord,
   Note,
 } from "musicTheory";
-import { createContext, ReactNode, useContext, useMemo, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 
 interface AppState {
   rootNote: ChromaticNote;
@@ -13,6 +20,7 @@ interface AppState {
   showOctave: boolean;
   strings: Note[];
   fretsToShow: number;
+  selectedNotes: Note[];
 }
 
 export const AppStateContext = createContext<AppState>({
@@ -22,6 +30,7 @@ export const AppStateContext = createContext<AppState>({
   notesInCurrentChord: [],
   strings: [],
   fretsToShow: 5,
+  selectedNotes: [],
 });
 
 interface AppStateMutations {
@@ -30,6 +39,9 @@ interface AppStateMutations {
   setShowOctave: (showOctave: boolean) => void;
   setStrings: (strings: Note[]) => void;
   setFretsToShow: (frets: number) => void;
+  setSelectedNotes: (selectedNotes: Note[]) => void;
+  addSelectedNote: (selectedNote: Note) => void;
+  removeSelectedNote: (selectedNote: Note) => void;
 }
 
 export const AppStateMutationsContext = createContext<AppStateMutations>({
@@ -38,6 +50,9 @@ export const AppStateMutationsContext = createContext<AppStateMutations>({
   setShowOctave: (_) => {},
   setStrings: (_) => {},
   setFretsToShow: (_) => {},
+  setSelectedNotes: (_) => {},
+  addSelectedNote: (_) => {},
+  removeSelectedNote: (_) => {},
 });
 
 interface Props {
@@ -45,12 +60,12 @@ interface Props {
 }
 
 const createDefaultStrings = (): Note[] => [
-  { name: "E", octave: "4" },
-  { name: "A", octave: "4" },
-  { name: "D", octave: "5" },
-  { name: "G", octave: "5" },
-  { name: "B", octave: "5" },
-  { name: "E", octave: "6" },
+  { name: "E", octave: "3" },
+  { name: "A", octave: "3" },
+  { name: "D", octave: "4" },
+  { name: "G", octave: "4" },
+  { name: "B", octave: "4" },
+  { name: "E", octave: "5" },
 ];
 
 export const useAppState = () => useContext(AppStateContext);
@@ -62,10 +77,27 @@ const AppStateWrapper = ({ children }: Props) => {
   const [strings, setStrings] = useState(createDefaultStrings());
   const [fretsToShow, setFretsToShow] = useState(6);
   const [showOctave, setShowOctave] = useState(false);
+  const [selectedNotes, setSelectedNotes] = useState<Note[]>([]);
 
   const notesInCurrentChord = useMemo(
     () => getChromaticNotesInChord(rootNote, currentChord),
     [rootNote, currentChord]
+  );
+
+  const addSelectedNote = useCallback(
+    (note: Note) => {
+      const newValue = [...selectedNotes, note];
+      setSelectedNotes(newValue);
+    },
+    [selectedNotes, setSelectedNotes]
+  );
+
+  const removeSelectedNote = useCallback(
+    (note: Note) => {
+      const newValue = selectedNotes.filter((otherNote) => otherNote !== note);
+      setSelectedNotes(newValue);
+    },
+    [selectedNotes, setSelectedNotes]
   );
 
   const state = {
@@ -75,6 +107,7 @@ const AppStateWrapper = ({ children }: Props) => {
     showOctave,
     strings,
     fretsToShow,
+    selectedNotes,
   };
 
   const mutations = {
@@ -83,6 +116,9 @@ const AppStateWrapper = ({ children }: Props) => {
     setShowOctave,
     setStrings,
     setFretsToShow,
+    setSelectedNotes,
+    addSelectedNote,
+    removeSelectedNote,
   };
 
   return (

@@ -9,18 +9,20 @@ interface Props {
 }
 
 const GuitarString = ({ note }: Props) => {
-  const { showOctave, fretsToShow } = useAppState();
+  const { fretsToShow } = useAppState();
 
   return (
     <div className={styles.guitarString}>
-      <div className={styles.guitarStringHeader}>
+      {/* <div className={styles.guitarStringHeader}>
         <div>
           <strong>{NoteWrapper.wrap(note).toString(showOctave)}</strong>
         </div>
-      </div>
+      </div> */}
 
-      {[...new Array(fretsToShow)].map((_, fret) => (
-        <Fret key={fret} fret={fret} stringNote={note} />
+      <Fret fret={0} stringNote={note} />
+
+      {[...new Array(fretsToShow)].map((_, index) => (
+        <Fret key={index} fret={index + 1} stringNote={note} />
       ))}
     </div>
   );

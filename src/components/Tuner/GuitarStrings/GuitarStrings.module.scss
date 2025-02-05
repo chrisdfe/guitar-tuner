@@ -35,8 +35,20 @@
   align-items: center;
   justify-content: center;
   // padding: 1rem;
+  border-radius: 1000px;
+  border: 2px solid transparent;
+
+  &.isOpenString {
+    font-weight: bold;
+    border-color: $text-color;
+  }
 
   &.isHighlighted {
     background: $background-2;
+  }
+
+  &.isSelected {
+    background: $maroon;
+    color: white;
   }
 }

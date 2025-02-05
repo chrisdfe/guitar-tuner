@@ -90,6 +90,11 @@ export default class NoteWrapper {
 
   // };
 
+  matches = (otherNote: Note) =>
+    this.value.name === otherNote.name &&
+    this.value.modifier === otherNote.modifier &&
+    this.value.octave === otherNote.octave;
+
   public static wrap = (note: Note) => new NoteWrapper(note);
 }
 
