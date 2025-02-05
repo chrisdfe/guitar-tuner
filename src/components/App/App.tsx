@@ -1,13 +1,16 @@
-import React from 'react';
+import React from "react";
 
-import Tuner from '../Tuner';
+import Tuner from "../Tuner";
 
-import styles from './App.module.scss';
+import styles from "./App.module.scss";
+import AppState from "components/AppState";
 
 const App = () => {
   return (
     <div className={styles.app}>
-      <Tuner />
+      <AppState>
+        <Tuner />
+      </AppState>
     </div>
   );
 };

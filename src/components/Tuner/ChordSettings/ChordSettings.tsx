@@ -1,10 +1,10 @@
-import { CHROMATIC_NOTES, ChromaticNote } from 'musicTheory';
-import styles from './ChordSettings.module.scss';
+import { CHROMATIC_NOTES, ChromaticNote, NoteWrapper } from "musicTheory";
+import styles from "./ChordSettings.module.scss";
 
 interface Props {
   fretsToShow: number;
   setFretsToShow: (frets: number) => void;
-  rootNote: ChromaticNote,
+  rootNote: ChromaticNote;
   setRootNote: (note: ChromaticNote) => void;
 }
 
@@ -12,12 +12,13 @@ const ChordSettings = ({
   fretsToShow,
   setFretsToShow,
   rootNote,
-  setRootNote
+  setRootNote,
 }: Props) => {
   return (
     <div className={styles.panel}>
       <div className={styles.formControl}>
-        <label htmlFor="frets-to-show"># of frets</label><br />
+        <label htmlFor="frets-to-show"># of frets</label>
+        <br />
         <input
           type="number"
           value={fretsToShow}
@@ -26,7 +27,8 @@ const ChordSettings = ({
             const value = parseInt(e.target.value, 10);
 
             setFretsToShow(value);
-          }} />
+          }}
+        />
       </div>
 
       <div className={styles.formControl}>
@@ -39,8 +41,10 @@ const ChordSettings = ({
             setRootNote(note);
           }}
         >
-          {CHROMATIC_NOTES.map(note => (
-            <option value={note}>{note}</option>
+          {CHROMATIC_NOTES.map((note) => (
+            <option key={note} value={note}>
+              {note}
+            </option>
           ))}
         </select>
       </div>

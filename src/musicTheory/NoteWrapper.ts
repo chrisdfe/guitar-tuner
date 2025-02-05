@@ -1,12 +1,17 @@
 // null === natural
-import { CHORD_CHROMATIC_INTERVALS_BY_NAME } from './chords';
-import { Note, ALL_NOTES, ChromaticNote, CHROMATIC_NOTE_REVERSE_LOOKUP } from './notes';
+import { CHORD_CHROMATIC_INTERVALS_BY_NAME } from "./chords";
+import {
+  Note,
+  ALL_NOTES,
+  ChromaticNote,
+  CHROMATIC_NOTE_REVERSE_LOOKUP,
+} from "./notes";
 
 export default class NoteWrapper {
   value: Note;
 
   constructor(note: Note) {
-    this.value = note;
+    this.value = { ...note };
   }
 
   add = (amount: number) => {
@@ -22,7 +27,7 @@ export default class NoteWrapper {
   hasModifier = () => !!this.value.modifier;
 
   toString = (showOctave: boolean = true) => {
-    let result = `${this.value.name}${this.value.modifier ?? ''}`;
+    let result = `${this.value.name}${this.value.modifier ?? ""}`;
 
     if (showOctave) {
       result += this.value.octave;
@@ -31,13 +36,17 @@ export default class NoteWrapper {
     return result;
   };
 
-  getIdx = () => ALL_NOTES.findIndex(note => NoteWrapper.wrap(note).toString() === this.toString());
+  getIdx = () =>
+    ALL_NOTES.findIndex(
+      (note) => NoteWrapper.wrap(note).toString() === this.toString()
+    );
 
   // TODO - type assertions
   asChromaticNote = () => {
     if (this.value.modifier) {
       // e.g Ab
-      const baseNote = `${this.value.name}${this.value.modifier}` as keyof typeof CHROMATIC_NOTE_REVERSE_LOOKUP;
+      const baseNote =
+        `${this.value.name}${this.value.modifier}` as keyof typeof CHROMATIC_NOTE_REVERSE_LOOKUP;
 
       // Get the 'autonym' (that isn't the right word)
       // e.g G#
@@ -65,8 +74,8 @@ export default class NoteWrapper {
   asFlatChromaticNote = () => {
     const chromaticNote = this.asChromaticNote();
 
-    if (chromaticNote.includes('/')) {
-      const [, flat] = chromaticNote.split('/');
+    if (chromaticNote.includes("/")) {
+      const [, flat] = chromaticNote.split("/");
       return flat;
     }
 
