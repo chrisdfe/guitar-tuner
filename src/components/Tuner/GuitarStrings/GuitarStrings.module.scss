@@ -1,5 +1,9 @@
 @import "../../../variables";
 
+$fret-height: 2rem;
+$fret-string-width: 2rem;
+$fret-string-padding: 0.5rem;
+
 .guitarStrings {
   display: flex;
   background: $background-1;
@@ -22,25 +26,25 @@
 
 .guitarStringFretWrapper {
   align-items: center;
-  padding: 0.5rem;
+  padding: $fret-string-padding;
   justify-content: center;
   border-bottom: 2px solid $border-color;
 }
 
 .guitarStringFret {
-  $size: 2rem;
-  width: $size;
-  height: $size;
+  width: $fret-string-width;
+  height: $fret-height;
   display: flex;
   align-items: center;
   justify-content: center;
   // padding: 1rem;
   border-radius: 1000px;
-  border: 2px solid transparent;
+  // border: 2px solid transparent;
 
   &.isOpenString {
-    font-weight: bold;
-    border-color: $text-color;
+    // font-weight: bold;
+    // border-color: $text-color;
+    color: $maroon;
   }
 
   &.isHighlighted {
@@ -51,4 +55,16 @@
     background: $maroon;
     color: white;
   }
+}
+
+.fretNumber {
+  width: $fret-string-width;
+  height: $fret-height;
+  padding: $fret-string-padding;
+  border-bottom: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-color;
+  opacity: 0.5;
 }

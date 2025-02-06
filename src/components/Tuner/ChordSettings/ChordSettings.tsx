@@ -1,7 +1,13 @@
-import { CHROMATIC_NOTES, ChromaticNote } from "musicTheory";
+import {
+  CHROMATIC_NOTES,
+  ChromaticNote,
+  INTERVALS,
+  NoteWrapper,
+} from "musicTheory";
 import styles from "./ChordSettings.module.scss";
 import { useAppState, useAppStateMutations } from "components/AppState";
 import { playChord } from "sound/guitarTone";
+import { getIntervalRelativeTo } from "musicTheory/NoteWrapper";
 
 const ChordSettings = () => {
   const { fretsToShow, rootNote, selectedNotes } = useAppState();
@@ -56,6 +62,15 @@ const ChordSettings = () => {
       </div>
 
       <div>
+        <h3>current chord</h3>
+        <p>
+          {selectedNotes.map((note, idx) => (
+            <>
+              {INTERVALS[getIntervalRelativeTo(note, rootNote)]}
+              {idx < selectedNotes.length - 1 && ", "}
+            </>
+          ))}
+        </p>
         <div>
           <button
             onClick={() => {
